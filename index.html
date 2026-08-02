@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Serviços — Vinnicius Carvalho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080809;
+    --surface: #0f0f11;
+    --surface2: #161618;
+    --border: rgba(255,255,255,0.06);
+    --border-hover: rgba(255,255,255,0.14);
+    --text: #eeedea;
+    --muted: #52525a;
+    --muted2: #88889a;
+    --accent: #aee637;
+    --accent-dim: rgba(174,230,55,0.08);
+    --accent-dark: #8ec428;
+    --wa: #25D366;
+    --wa-dim: rgba(37,211,102,0.07);
+    --popular: #ff6b35;
+  }
+
+  html { background: var(--bg); scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 5rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 4rem 1.5rem 2.5rem;
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 280px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.35;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 18px; height: 1px;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--muted2);
+    line-height: 1.8;
+    max-width: 400px;
+  }
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 1.4rem;
+  }
+  .hero-badge {
+    font-size: 12px;
+    color: var(--muted2);
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 99px;
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .hero-badge span { color: var(--accent); font-weight: 500; }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    margin-top: 2.75rem;
+  }
+
+  /* ── CARDS ── */
+  .cards { display: flex; flex-direction: column; gap: 8px; }
+
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.2rem 1.25rem 1.1rem;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    user-select: none;
+  }
+  .card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-1px);
+  }
+  .card:active { transform: scale(0.99); }
+  .card.selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .card.popular { border-color: rgba(255,107,53,0.22); }
+  .card.popular.selected { border-color: var(--accent); background: var(--accent-dim); }
+
+  .popular-badge {
+    position: absolute;
+    top: -1px; right: 14px;
+    background: var(--popular);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 28px;
+  }
+  .card-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+  }
+  .card-desc {
+    margin-top: 0.4rem;
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.65;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 0.8rem;
+  }
+  .ctag {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 99px;
+    border: 0.5px solid var(--border);
+    color: var(--muted2);
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .card.selected .ctag {
+    border-color: rgba(174,230,55,0.2);
+    color: rgba(174,230,55,0.75);
+  }
+  .check {
+    position: absolute;
+    top: 1.1rem; right: 1.1rem;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: transparent;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .card.selected .check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #080809;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    max-width: 520px;
+    margin: 2.5rem auto 0;
+    border: none;
+    border-top: 0.5px solid var(--border);
+  }
+
+  /* ── FORM ── */
+  .form-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    margin-top: 1.5rem;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input[type="text"]:focus, textarea:focus {
+    border-color: rgba(174,230,55,0.35);
+    box-shadow: 0 0 0 3px rgba(174,230,55,0.05);
+  }
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+  input.error {
+    border-color: #ff4d4d !important;
+    box-shadow: 0 0 0 3px rgba(255,77,77,0.05) !important;
+  }
+  textarea { resize: vertical; min-height: 100px; line-height: 1.65; }
+
+  .form-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    line-height: 1.6;
+  }
+
+  /* ── WA CTA ── */
+  .wa-section {
+    margin-top: 2rem;
+    background: var(--surface);
+    border: 0.5px solid rgba(37,211,102,0.15);
+    border-radius: 14px;
+    padding: 1.4rem 1.25rem 1.25rem;
+  }
+  .wa-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .wa-desc {
+    font-size: 13px;
+    color: var(--muted2);
+    line-height: 1.65;
+    margin-bottom: 1.1rem;
+  }
+  .btn-wa {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--wa);
+    color: #080809;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+    letter-spacing: -0.01em;
+  }
+  .btn-wa:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.2);
+  }
+  .btn-wa:active { transform: scale(0.98); }
+
+  /* ── SUCCESS ── */
+  .success {
+    display: none;
+    text-align: center;
+    padding: 5rem 2rem;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .success-ring {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 0.5px solid rgba(174,230,55,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 24px;
+  }
+  .success h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+  }
+  .success p { font-size: 14px; color: var(--muted2); line-height: 1.75; }
+
+  /* ── FOOTER ── */
+  .footer {
+    max-width: 520px;
+    margin: 3.5rem auto 0;
+    padding: 2rem 1.5rem 0;
+    border-top: 0.5px solid var(--border);
+  }
+  .footer-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .footer-link {
+    font-size: 12px;
+    color: var(--muted2);
+    text-decoration: none;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 99px;
+    padding: 5px 14px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .footer-link:hover { color: var(--accent); border-color: rgba(174,230,55,0.2); }
+  .footer-copy {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 3rem 1.25rem 2rem; }
+    .hero h1 { font-size: 26px; }
+    .wrap { padding: 0 1.25rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="main-area">
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="eyebrow">Vinnicius Carvalho</p>
+    <h1>Precisa de conteúdo<br>que <em>funcione?</em><br>Me conta o que você precisa.</h1>
+    <p class="hero-sub">Seleciona o serviço que faz sentido pro seu momento, conta um pouco sobre o que você precisa — eu avalio e te mando um orçamento personalizado.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">⚡ <span>Resposta rápida</span></span>
+      <span class="hero-badge">💬 <span>Sem compromisso</span></span>
+      <span class="hero-badge">✓ <span>Orçamento grátis</span></span>
+    </div>
+  </div>
+
+  <!-- SERVIÇOS -->
+  <div class="wrap">
+    <p class="section-label">O que você precisa?</p>
+    <div class="cards">
+
+      <div class="card popular" onclick="toggleCard(this, 'Gestão de Instagram')">
+        <div class="popular-badge">Mais procurado</div>
+        <div class="check">✓</div>
+        <div class="card-top">
+          <span class="card-name">Gestão de Instagram</span>
+        </div>
+        <p class="card-desc">Seu perfil some por dias e você não tem tempo pra postar? Cuido de tudo — posts, artes e legendas. Você só aprova.</p>
+        <div class="card-tags">
+          <span class="ctag">Feed & Stories</span>
+          <span class="ctag">Arte no Canva</span>
+          <span class="ctag">Copy incluso</span>
+          <span class="ctag">Relatório mensal</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this, 'Edição de Reels')">
+        <div class="check">✓</div>
+        <div class="card-top">
+          <span class="card-name">Edição de Reels</span>
+        </div>
+        <p class="card-desc">Tem vídeo gravado mas não sabe editar ou não tem tempo? Transformo seu material bruto num Reels com cara profissional.</p>
+        <div class="card-tags">
+          <span class="ctag">Até 90 seg</span>
+          <span class="ctag">Legenda animada</span>
+          <span class="ctag">Entrega em 48h</span>
+          <span class="ctag">Instagram + TikTok</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this, 'Pack de Conteúdo')">
+        <div class="check">✓</div>
+        <div class="card-top">
+          <span class="card-name">Pack de Conteúdo</span>
+        </div>
+        <p class="card-desc">Precisa de um mês de posts prontos pra postar quando quiser? Entrego artes + legendas sem mensalidade nem contrato.</p>
+        <div class="card-tags">
+          <span class="ctag">9 ou 12 posts</span>
+          <span class="ctag">Sem contrato</span>
+          <span class="ctag">Entrega em 5 dias</span>
+          <span class="ctag">Editável</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this, 'Copywriting')">
+        <div class="check">✓</div>
+        <div class="card-top">
+          <span class="card-name">Copywriting</span>
+        </div>
+        <p class="card-desc">Sua bio não converte, suas legendas não engajam ou você precisa de uma página de vendas que funcione? Resolvo com texto.</p>
+        <div class="card-tags">
+          <span class="ctag">Bio</span>
+          <span class="ctag">Legendas</span>
+          <span class="ctag">Página de vendas</span>
+          <span class="ctag">Stories</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this, 'Bot de Conversa & Funil de Vendas')">
+        <div class="check">✓</div>
+        <div class="card-top">
+          <span class="card-name">Bot de Conversa & Funil de Vendas</span>
+        </div>
+        <p class="card-desc">Quer vender pelo WhatsApp ou Instagram mas não sabe por onde começar? Monto a estrutura do zero — do primeiro contato até o fechamento. Ideal pra quem está começando e precisa de um processo que funcione no piloto automático.</p>
+        <div class="card-tags">
+          <span class="ctag">Bot no WhatsApp</span>
+          <span class="ctag">Funil completo</span>
+          <span class="ctag">Para iniciantes</span>
+          <span class="ctag">Automação simples</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- FORMULÁRIO -->
+  <div class="wrap">
+    <p class="section-label">Solicitar orçamento</p>
+
+    <label class="form-label" for="nome">Seu nome</label>
+    <input type="text" id="nome" placeholder="Como posso te chamar?" />
+
+    <label class="form-label" for="descricao">O que você precisa?</label>
+    <textarea id="descricao" placeholder="Conta um pouco sobre seu negócio, o que você precisa e se tem algum prazo em mente. Quanto mais detalhe, mais certeiro o orçamento."></textarea>
+    <p class="form-hint">Nada obrigatório — mas quanto mais você contar, mais personalizado fica o orçamento.</p>
+
+    <div class="wa-section">
+      <p class="wa-title">Pronto? Me manda no WhatsApp</p>
+      <p class="wa-desc">Clica abaixo e o WhatsApp já abre com sua mensagem formatada. Avalio e te respondo com um orçamento personalizado — normalmente no mesmo dia.</p>
+      <button class="btn-wa" onclick="enviarForm()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="#080809" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Solicitar orçamento grátis
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-socials">
+      <a class="footer-link" href="https://instagram.com/karmellovinni" target="_blank">Instagram</a>
+      <a class="footer-link" href="https://x.com/karmellovinni" target="_blank">X</a>
+      <a class="footer-link" href="https://youtube.com/@vinnikarmello" target="_blank">YouTube</a>
+      <a class="footer-link" href="https://tiktok.com/@karmellovinni" target="_blank">TikTok</a>
+    </div>
+    <p class="footer-copy">© 2026 Vinnicius Carvalho · Joinville, SC</p>
+  </div>
+
+</div>
+
+<!-- SUCCESS -->
+<div class="success" id="success-area">
+  <div class="success-ring">✓</div>
+  <h2>Mensagem enviada!</h2>
+  <p>O WhatsApp abriu com seu pedido.<br>Te retorno com o orçamento — normalmente no mesmo dia.</p>
+</div>
+
+<script>
+  const WA = "5547988899265";
+  const selected = new Set();
+
+  function toggleCard(card, val) {
+    card.classList.toggle('selected');
+    selected.has(val) ? selected.delete(val) : selected.add(val);
+  }
+
+  function getServicos() {
+    return selected.size ? [...selected].join(', ') : 'não especificado';
+  }
+
+  function buildMsg(nome, servicos, desc) {
+    let msg = `Olá Vinni! Me chamo *${nome}* e tenho interesse em: *${servicos}*.`;
+    if (desc.trim()) msg += `\n\nDetalhes: ${desc.trim()}`;
+    return encodeURIComponent(msg);
+  }
+
+  function enviarForm() {
+    const nomeEl = document.getElementById('nome');
+    const nome = nomeEl.value.trim();
+    if (!nome) {
+      nomeEl.classList.add('error');
+      nomeEl.focus();
+      nomeEl.addEventListener('input', () => nomeEl.classList.remove('error'), { once: true });
+      return;
+    }
+    const msg = buildMsg(nome, getServicos(), document.getElementById('descricao').value);
+    window.open(`https://wa.me/${WA}?text=${msg}`, '_blank');
+    document.getElementById('main-area').style.display = 'none';
+    document.getElementById('success-area').style.display = 'block';
+  }
+</script>
+</body>
+</html>
