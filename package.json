@@ -1,0 +1,9 @@
+{
+  "name": "eficem",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site da EFICEM - Equipe de Eficiência Energética da UFSC",
+  "scripts": {
+    "build": "mkdir -p .output && cp index.html .output/index.html"
+  }
+}
