@@ -2,7 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0a2540" />
 <title>Eficem — Equipe de Eficiência Energética da UFSC</title>
 <meta name="description" content="Conheça a EFICEM - Equipe de Eficiência Energética da Universidade Federal de Santa Catarina" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,7 +24,8 @@
     --shadow: 0 10px 30px rgba(10, 37, 64, 0.08);
   }
 
-  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { overflow-x: hidden; }
 
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -233,6 +235,46 @@
     .nav-links.open { display: flex; }
     .hero { padding: 3.5rem 0 4rem; }
     section { padding: 3.5rem 0; }
+
+    .container { padding: 0 1rem; }
+    .nav-toggle { display: flex; align-items: center; justify-content: center; }
+    .nav-links {
+      gap: 2px; max-height: calc(100vh - 64px); overflow-y: auto;
+      box-shadow: 0 16px 30px rgba(0,0,0,0.25);
+    }
+    .nav-links a { padding: 14px 16px; font-size: 16px; }
+    .brand { font-size: 18px; }
+
+    .hero::after { width: 260px; height: 260px; right: -110px; top: -110px; }
+    .hero p { font-size: 1rem; }
+    .hero-actions { flex-direction: column; gap: 10px; }
+    .hero-actions .btn { width: 100%; text-align: center; padding: 14px 20px; }
+
+    .section-head { margin-bottom: 2rem; }
+    .about { gap: 1.75rem; }
+    .about-text p { text-align: left; }
+    .about-photo img { border-width: 4px; border-radius: 12px; }
+    .vmv { margin-top: 2.5rem; }
+    .vmv-card { padding: 1.5rem 1.25rem; }
+    .panel { padding: 1.25rem 1rem; }
+    .timeline { padding-left: 1.1rem; }
+    .timeline li::before { left: calc(-1.1rem - 6px); }
+    .proj-body { padding: 1.15rem 1.1rem 1.3rem; }
+    .contact-card { padding: 1.5rem 1.1rem; }
+    .contact-row { gap: 12px; }
+    .contact-row a { word-break: break-word; overflow-wrap: anywhere; }
+    footer { padding: 1.25rem 1rem calc(1.25rem + env(safe-area-inset-bottom)); line-height: 1.5; }
+    .to-top { right: 14px; bottom: calc(14px + env(safe-area-inset-bottom)); width: 48px; height: 48px; }
+  }
+
+  @media (max-width: 380px) {
+    .specs li { flex-direction: column; gap: 2px; }
+    .specs span { text-align: left; }
+    .hero h1 { font-size: 2rem; }
+  }
+
+  @media (hover: none) {
+    .btn:hover, .vmv-card:hover, .proj-card:hover, .to-top:hover { transform: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -458,6 +500,25 @@
       navToggle.setAttribute('aria-expanded', 'false');
       navToggle.textContent = '☰';
     });
+  });
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.textContent = '☰';
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!navLinks.classList.contains('open')) return;
+    if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) closeMenu();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) closeMenu();
   });
 
   window.addEventListener('scroll', () => {
